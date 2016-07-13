@@ -1,5 +1,13 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
+<?php 
+$post_id = get_the_id();
+$url = get_the_permalink();
+$titulo = get_the_title();
+$keywords = "";
+$description = get_the_excerpt();
+$image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
+?>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<title><?php wp_title(); ?></title>
@@ -10,7 +18,6 @@
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<!-- jQuery -->
 	<script src="<?= get_template_directory_uri(); ?>/js/jquery.min.js"></script>
-	<?php wp_head(); ?>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<!-- Bootstrap CSS -->
 	<link href="<?= get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +27,21 @@
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
+	<!-- for Google -->
+	<meta name="description" content="<?= $description ?>" />
+	<meta name="keywords" content="<?= $keywords ?>" />
+	<!-- for Facebook -->          
+	<meta property="og:title" content="<?= $titulo ?>" />
+	<meta property="og:type" content="web" />
+	<meta property="og:image" content="<?= $image ?>" />
+	<meta property="og:url" content="<?= $url ?>" />
+	<meta property="og:description" content="<?= $description ?>" />
+	<!-- for Twitter -->          
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="<?= $titulo ?>" />
+	<meta name="twitter:description" content="<?= $description ?>" />
+	<meta name="twitter:image" content="<?= $image ?>" />
+	<?php wp_head(); ?>
 </head>
 <body>
 	<div class="wrapper">

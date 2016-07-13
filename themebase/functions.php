@@ -41,7 +41,7 @@ add_action('get_header', 'enable_threaded_comments');
  *
  ***********************************************************/
 
-add_filter('wp_nav_menu_items', 'wpml_flag_nav_menu_items', 10, 2);
+// add_filter('wp_nav_menu_items', 'wpml_flag_nav_menu_items', 10, 2);
 function wpml_flag_nav_menu_items($items, $args) {
 	global $sitepress_settings, $sitepress;
 	if(function_exists('icl_get_languages')){
@@ -66,7 +66,7 @@ function wpml_flag_nav_menu_items($items, $args) {
 		}
 	}
 
-	$items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-75 menu-item-language menu-item-language-current" style="text-transform: uppercase;">';
+	$items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-language menu-item-language-current" style="text-transform: uppercase;">';
 	$items .= $idioma;
 	$items .= '</li>';
 	return $items;
