@@ -1,6 +1,16 @@
 <?php
 /* ************/
-// require_once('inc/option-page.php');
+/*-----------------------------------------*/
+/* Cargar Panle de Opciones
+/*-----------------------------------------*/
+if ( !function_exists( 'optionsframework_init' ) ) {
+	define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
+	require_once dirname( __FILE__ ) . '/inc/options-framework.php';
+
+	// Loads options.php from child or parent theme
+	$optionsfile = locate_template( 'options.php' );
+	load_template( $optionsfile );
+}
 
 // Registro del menú de WordPress
 require_once('inc/navwalker.php');
@@ -102,4 +112,49 @@ function wp_corenavi() {
     if ($max > 1) echo '</div>';
 }
 
+function getCookies($active, $title, $text) {
+	$res = "";
+	if ($active){
+		$res = '
+		<section class="cookie-wrapper" id="cookieto">
+			<div class="content-block">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
+							<div class="col-sm-2">
+								<div class="cookie-title">'.$title.'</div>
+							</div>
+							<div class="col-sm-9">
+								<div class="cookie-text">'.$text.'</div>
+							</div>
+							<div class="col-sm-1">
+								<div class="cookie-close">
+									<div class="button black"><i class="fa fa-times " aria-hidden="true"></i></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		';
+	}
+	return $res;
+}
+// $title_cookies = of_get_option('title_cookies', 'dsdf');
+// var_dump($title_cookies);
+// var_dump(of_get_option('title_cookies','Da'));
+// var_dump(of_get_option('text_cookies','Default Data'));
+// 
+// $m_mode = of_get_option('m_mode');
+function wpr_maintenace_mode() {
+	if ( !current_user_can( 'edit_themes' ) || !is_user_logged_in() ) {
+        include('maintenance.php');
+		die();
+	}
+}
+if (of_get_option('m_mode')) {
+	add_action('get_header', 'wpr_maintenace_mode');
+	// echo 'activado';
+}
 ?>

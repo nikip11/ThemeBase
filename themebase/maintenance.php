@@ -11,7 +11,7 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 <head>
 	<?php wp_head(); ?>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<title><?= get_bloginfo('name') ?> | <?php the_title(); ?></title>
+	<title><?= get_bloginfo('name') ?> | Mantenimiento </title>
 	<!-- Fuentes -->
 	<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
 	<!-- for Google -->
@@ -47,42 +47,24 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 	<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 </head>
 <body>
-	<div class="wrapper"><?php
-		// var_dump(of_get_option('title_cookies', 'themebase'));
-		// var_dump(of_get_option('title_cookies'));
-		// echo of_get_option('text_cookies','text');
-
-		echo getCookies(TRUE, of_get_option('title_cookies'),of_get_option('text_cookies'));
-		?>
-		<header>
-			<nav class="navbar navbar-default" role="navigation" id="myScrollspy">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="<?php echo get_option('home'); ?>">
-							<img src="<?= get_stylesheet_directory_uri(); ?>/images/logo.png" width="110" alt="<?php bloginfo('name'); ?>" class="img-responsive"/>
-						</a>
+	<section  class="maintenance">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="content-maintenance">
+						<?php echo of_get_option('text_m_mode'); ?>
 					</div>
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse navbar-ex1-collapse">
-						<!--<?= __('texto', 'plantilla'); ?>-->
-						<?php 
-						wp_nav_menu( array(
-							'menu' => 'Main',
-							'depth' => 2,
-							'container' => false,
-							'menu_class' => 'nav navbar-nav',
-							'fallback_cb' => 'wp_page_menu',
-							'walker' => new wp_bootstrap_navwalker())
-						);
-						?>
-					</div><!-- /.navbar-collapse --> 
 				</div>
-			</nav>
-		</header>
+			</div>
+		</div>
+	</section>
+	<!-- jQuery -->
+	<script src="//code.jquery.com/jquery.js"></script>
+	<!-- Bootstrap JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<?php wp_footer(); ?>
+	<!-- Bootstrap JavaScript -->
+	<script src="<?= get_template_directory_uri(); ?>/js/bootstrap.min.js"></script>
+	<script src="<?= get_template_directory_uri(); ?>/js/script.js"></script>
+</body>
+</html>

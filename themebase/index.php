@@ -7,13 +7,13 @@
          
         <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
         <small>Publicado el <?php the_time('j/m/Y') ?> por <?php the_author_posts_link() ?>  </small>
-        <div class="thumbnail">
           <?php
           if ( has_post_thumbnail() ) { 
+            echo '<div class="thumbnail">';
             the_post_thumbnail();
+            echo '</div>';
           }
           ?>
-        </div>
         <?php the_excerpt(); ?>
         
       <?php endwhile; else: ?>
