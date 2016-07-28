@@ -47,7 +47,7 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 	<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 </head>
 <body>
-	<section  class="maintenance">
+	<section class="maintenance">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">

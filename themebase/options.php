@@ -12,8 +12,8 @@ function optionsframework_option_name() {
 function optionsframework_options() {
 	$option_maintenance = '
 	<h1 style="text-align: center;"><i class="fa fa-cogs fa-5x"></i></h1>
-	<h1 style="text-align: center;">Modo Mantenimiento</h1>
-	<p style="text-align: center;">Pronto volverémos</p>
+	<h1 style="text-align: center;">Modo de Mantenimiento</h1>
+	<p style="text-align: center;">Pronto volverémos...</p>
 	';
 	$option_textcookie = 'Utilizamos de terceros para mejorar la experiencia de navegación, y ofrecer contenidos de interés. Al continuar con la navegación entendemos que se acepta nuestra <a href="aviso-legal/">política de cookies</a>';
 	$option_titlecookie = 'Política de cookies';

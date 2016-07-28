@@ -200,6 +200,7 @@ Navigation
   -webkit-align-items: center;
   -webkit-box-align: center;
   align-items: center;
+  background: #F1F1F1;
 }
 .content-maintenance {
   vertical-align: middle;
