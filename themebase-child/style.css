@@ -1,8 +1,11 @@
 /*
-Theme Name:   themebase child
-Template: themebase
-azul: #1F2D50;
-rojo: #E42B28;
+Theme Name: themebase Child
+Theme URI: http://www.nikiponce.com/themebase/
+Description: Tema base para desarrolladores.
+Author: Niki Joel Ponce Quintero
+Author URI: http://www.nikiponce.com
+Template:     themebase
+Version: 1.5
+Text Domain:  themebase-child
 */
-
-@import url('../themebase/style.css');
+@import url("../themebase/style.css");

@@ -15,9 +15,10 @@
 		</div>
 	</footer>
 
+	<?php if (of_get_option('title_cookies')) echo getCookies(of_get_option('title_cookies'),of_get_option('text_cookies'),of_get_option('link_cookies')); ?>
 	<?php wp_footer(); ?>
 	<!-- Bootstrap JavaScript -->
-	<script src="<?= get_template_directory_uri(); ?>/js/bootstrap.min.js"></script>
+	<!-- <script src="<?= get_template_directory_uri(); ?>/js/bootstrap.min.js"></script> -->
 	<script src="<?= get_template_directory_uri(); ?>/js/script.js"></script>
 </body>
 </html>

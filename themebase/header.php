@@ -12,8 +12,10 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 	<?php wp_head(); ?>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<title><?= get_bloginfo('name') ?> | <?php the_title(); ?></title>
+
 	<!-- Fuentes -->
 	<link href='https://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+
 	<!-- for Google -->
 	<meta name="description" content="<?= $description ?>" />
 	<meta name="keywords" content="<?= $keywords ?>" />
@@ -28,32 +30,28 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 	<meta name="twitter:title" content="<?= $titulo ?>" />
 	<meta name="twitter:description" content="<?= $description ?>" />
 	<meta name="twitter:image" content="<?= $image ?>" />
+
 	<!-- Definir viewport para dispositivos web móviles -->
 	<meta name="viewport" content="width=device-width, minimum-scale=1">
-	<link rel="shortcut icon" href="<?= get_template_directory_uri(); ?>/favicon.ico" />
-	<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+	<link rel="shortcut icon" href="<?= get_template_directory_uri(); ?>/favicon.png" />
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	<!-- jQuery -->
-	<script src="<?= get_template_directory_uri(); ?>/js/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<!-- <script src="<?= get_template_directory_uri(); ?>/js/jquery.min.js"></script> -->
 	<!-- Bootstrap CSS -->
-	<link href="<?= get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet">
+	<!-- <link href="<?= get_template_directory_uri(); ?>/css/bootstrap.min.css" rel="stylesheet"> -->
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
-	<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<![endif]-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<script type="text/javascript"><?php echo of_get_option('text_gas'); ?></script>
 </head>
 <body>
-	<div class="wrapper"><?php
-		// var_dump(of_get_option('title_cookies', 'themebase'));
-		// var_dump(of_get_option('title_cookies'));
-		// echo of_get_option('text_cookies','text');
-
-		echo getCookies(TRUE, of_get_option('title_cookies'),of_get_option('text_cookies'));
-		?>
+	<?php  if (of_get_option('active_legal')) echo legalAge(of_get_option('text_legal')); ?>
+	<div class="wrapper">
 		<header>
 			<nav class="navbar navbar-default" role="navigation" id="myScrollspy">
 				<div class="container">
@@ -66,23 +64,25 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 							<span class="icon-bar"></span>
 						</button>
 						<a class="navbar-brand" href="<?php echo get_option('home'); ?>">
-							<img src="<?= get_stylesheet_directory_uri(); ?>/images/logo.png" width="110" alt="<?php bloginfo('name'); ?>" class="img-responsive"/>
+							<!-- <img src="<?= get_stylesheet_directory_uri(); ?>/images/logo.jpg"  alt="<?php bloginfo('name'); ?>" class="img-responsive"/> -->
+							<?php bloginfo('name'); ?>
 						</a>
 					</div>
 					<!-- Collect the nav links, forms, and other content for toggling -->
 					<div class="collapse navbar-collapse navbar-ex1-collapse">
-						<!--<?= __('texto', 'plantilla'); ?>-->
 						<?php 
-						wp_nav_menu( array(
-							'menu' => 'Main',
-							'depth' => 2,
-							'container' => false,
-							'menu_class' => 'nav navbar-nav',
-							'fallback_cb' => 'wp_page_menu',
-							'walker' => new wp_bootstrap_navwalker())
+						wp_nav_menu(
+							array(
+								'menu' => 'Main',
+								'depth' => 2,
+								'container' => false,
+								'menu_class' => 'nav navbar-nav mainmenu',
+								'fallback_cb' => 'wp_page_menu',
+								'walker' => new wp_bootstrap_navwalker()
+							)
 						);
 						?>
-					</div><!-- /.navbar-collapse --> 
+					</div>
 				</div>
 			</nav>
 		</header>

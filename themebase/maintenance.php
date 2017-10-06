@@ -43,15 +43,17 @@ $image = wp_get_attachment_url( get_post_thumbnail_id($post_id) );
 	<!--[if lt IE 9]>
 	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	<![endif]-->
-	<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<![endif]-->
+<link rel="stylesheet" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+<script type="text/javascript"><?php echo of_get_option('text_gas'); ?></script>
 </head>
 <body>
-	<section class="maintenance">
+	<section  class="maintenance">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="content-maintenance">
+						<h1 class="text-center"><i class="fa fa-cogs fa-5x fa-fw"></i></h1>
 						<?php echo of_get_option('text_m_mode'); ?>
 					</div>
 				</div>

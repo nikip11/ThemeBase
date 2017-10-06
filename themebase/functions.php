@@ -1,24 +1,37 @@
 <?php
-/* ************/
 /*-----------------------------------------*/
-/* Cargar Panle de Opciones
+/* Load Theme Opcions
 /*-----------------------------------------*/
+require_once dirname( __FILE__ ) . '/inc/metaboxes/class-metaboxes.php';
+
+
 if ( !function_exists( 'optionsframework_init' ) ) {
 	define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
 	require_once dirname( __FILE__ ) . '/inc/options-framework.php';
-
 	// Loads options.php from child or parent theme
 	$optionsfile = locate_template( 'options.php' );
 	load_template( $optionsfile );
 }
 
+// Añadir scripts y styles
+if ( !function_exists('bootstrap')) {
+function bootstrap() {
+	wp_enqueue_style( 'bootstrap-css', get_stylesheet_directory_uri() . '/css/bootstrap.min.css' );
+	// wp_enqueue_script( 'jquery', get_stylesheet_directory_uri() . '/js/jquery.min.js');
+	wp_enqueue_script( 'bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.min.js',array('jquery'), '1.1', true);
+}
+add_action( 'wp_enqueue_scripts', 'bootstrap' );
+}
+
 // Registro del menú de WordPress
 require_once('inc/navwalker.php');
+
 add_theme_support( 'nav-menus' );
 if ( function_exists( 'register_nav_menus' ) ) {
 	register_nav_menus(
 		array(
-			'main' => 'Main'
+			'main' => 'Main',
+			'footer' => 'footer'
 			)
 		);
 }
@@ -26,6 +39,7 @@ if ( function_exists( 'register_nav_menus' ) ) {
 //  Main Sidebar
 if(function_exists('register_sidebar'))
 	register_sidebar(array(
+		'id' => 'main_sidebar',
 		'name' => 'Main Sidebar',
 		'before_widget' => '<hr>',
 		'after_widget' => '',
@@ -46,10 +60,8 @@ function enable_threaded_comments(){
 add_action('get_header', 'enable_threaded_comments');
 
 /************************************************************
- *
- *	Función para agregar idioma como item del menu
- *
- ***********************************************************/
+Función para agregar idioma como item del menu
+*************************************************************/
 
 // add_filter('wp_nav_menu_items', 'wpml_flag_nav_menu_items', 10, 2);
 function wpml_flag_nav_menu_items($items, $args) {
@@ -81,14 +93,6 @@ function wpml_flag_nav_menu_items($items, $args) {
 	$items .= '</li>';
 	return $items;
 }
-
-//*********************************
-// Crear tamaño imagen personalizado
-if ( ! current_theme_supports('post-thumbnails') ) {
-	add_theme_support( 'post-thumbnails' );
-}
-add_image_size( 'pimage', 560, 300, true );
-
 //*********************************
 //Paginación de entradas
 function wp_corenavi() {
@@ -112,49 +116,61 @@ function wp_corenavi() {
     if ($max > 1) echo '</div>';
 }
 
-function getCookies($active, $title, $text) {
-	$res = "";
-	if ($active){
-		$res = '
-		<section class="cookie-wrapper" id="cookieto">
-			<div class="content-block">
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-1">
-							<div class="col-sm-2">
-								<div class="cookie-title">'.$title.'</div>
-							</div>
-							<div class="col-sm-9">
-								<div class="cookie-text">'.$text.'</div>
-							</div>
-							<div class="col-sm-1">
-								<div class="cookie-close">
-									<div class="button black"><i class="fa fa-times " aria-hidden="true"></i></div>
-								</div>
-							</div>
+function getCookies($title, $text, $link) {
+	return '
+	<section id="cookie">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="cookie-title">'.$title.'</div>
+					</div>
+					<div class="col-sm-1"></div>
+					<div class="col-sm-7">
+						<div class="cookie-text">'.$text.'. Más información <a href="'.$link.'">aquí</a></div>
+					</div>
+					<div class="col-sm-1">
+						<div class="cookie-close">
+							<i class="fa fa-times " aria-hidden="true"></i>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-		';
-	}
-	return $res;
+	</section>
+	';
 }
-// $title_cookies = of_get_option('title_cookies', 'dsdf');
-// var_dump($title_cookies);
-// var_dump(of_get_option('title_cookies','Da'));
-// var_dump(of_get_option('text_cookies','Default Data'));
-// 
-// $m_mode = of_get_option('m_mode');
+
+
+if ( !function_exists('legalAge')) {
+	function legalAge($text){
+		return '
+			<div id="legal">
+				<div class="legal-content">
+						<div>Logo</div>
+					<div class="legal-form">
+						<p>'.$text.'</p>
+						<ul class="d-line">
+							<li class="legal-btn" id="yes">SI</li>
+							<li class="legal-btn" id="no">NO</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			';
+	}
+}
+
+if (of_get_option('m_mode')) {
+	add_action('get_header', 'wpr_maintenace_mode');
+}
 function wpr_maintenace_mode() {
 	if ( !current_user_can( 'edit_themes' ) || !is_user_logged_in() ) {
-        include('maintenance.php');
+		include('maintenance.php');
 		die();
 	}
 }
-if (of_get_option('m_mode')) {
-	add_action('get_header', 'wpr_maintenace_mode');
-	// echo 'activado';
+
+// añadir extracto a las páginas
+add_action( 'init', 'my_add_excerpts_to_pages' );
+function my_add_excerpts_to_pages() {
+	add_post_type_support( 'page', 'excerpt' );
 }
-?>
