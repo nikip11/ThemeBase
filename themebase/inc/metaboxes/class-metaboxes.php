@@ -1,7 +1,6 @@
 <?php
 class MetaBoxes {
 	var $meta;
-
 	public function __construct($mbox) {
 		if ( is_admin() ){
 			add_action('load-post.php', array($this, 'init_metabox'));
@@ -9,6 +8,7 @@ class MetaBoxes {
 		}
 		$this->meta = $mbox;
 		$this->init_metabox();
+
 	}
 
 
@@ -28,12 +28,12 @@ class MetaBoxes {
 			$this->meta['post'],
 			$this->meta['context'],
 			$this->meta['position']
-			);
+		);
 
 	}
 
 	public function render_metabox( $post ) {
-		
+
 		$input = '';
 		$vars = $this->meta['var'];
 
@@ -44,7 +44,7 @@ class MetaBoxes {
 			// get value form post metabox
 			$mb = get_post_meta( $post->ID, $value['id'], true);
 			// var_dump($mb);
-			
+
 			// set default values
 			if( empty( $mb ) ) $mb = $value['std'];
 
@@ -53,8 +53,8 @@ class MetaBoxes {
 				case 'textarea':
 				echo '
 				<div class="form-group">
-					<label for="'.$value['id'].'"><strong>'.$value['name'].'</strong></label><br />
-					<textarea class="widefat" id="'.$value['id'].'" name="'.$value['id'].'">'.$mb.'</textarea>
+				<label for="'.$value['id'].'"><strong>'.$value['name'].'</strong></label><br />
+				<textarea class="widefat" id="'.$value['id'].'" name="'.$value['id'].'">'.$mb.'</textarea>
 				</div>
 				';
 				break;
@@ -65,14 +65,14 @@ class MetaBoxes {
 				$content = get_post_meta($post->ID, $value['id'], true);
 				wp_editor(htmlspecialchars_decode($content) , $value['id'], array(
 					"media_buttons" => true
-					));
+				));
 				break;
 
-				case 'image':
+				case 'image2':
 				function my_admin_scripts()	{wp_enqueue_script('jquery');	wp_enqueue_script('media-upload');	wp_enqueue_script('thickbox'); }
 				function my_admin_styles()	{wp_enqueue_style('thickbox');	}
 				$url = get_post_meta($post->ID, $value['id'], true);
-				
+
 				?>
 				<div id="<?php echo $value['id'];?>">
 					<label><?php echo $value['name'];?></label><br />
@@ -102,21 +102,48 @@ class MetaBoxes {
 				<?php
 				break;
 
+				case 'image':
+				$url = get_post_meta($post->ID, $value['id'], true);
+				?>
+				<div id="<?php echo $value['id'];?>">
+					<label><?php echo $value['name'];?></label><br /><br />
+
+					<img style="max-width:200px;height:auto;" id="meta-image-preview" src="<?php if ( isset ( $url ) ){ echo $url; } ?>" /><br />
+
+					<input type="text" name="<?php echo $value['id'];?>" id="<?php echo $value['id'];?>" class="meta_image" value="<?php if ( isset ( $url ) ){ echo $url; } ?>" /><br /><br />
+
+					<input type="button" id="meta-image-button" class="button" value="Añadir Objeto" />
+				</div>
+				<script>
+					jQuery('#meta-image-button').click(function() {
+						var send_attachment_bkp = wp.media.editor.send.attachment;
+						wp.media.editor.send.attachment = function(props, attachment) {
+							jQuery('#<?php echo $value['id'];?>').val(attachment.url);
+							jQuery('#meta-image-preview').attr('src',attachment.url);
+							wp.media.editor.send.attachment = send_attachment_bkp;
+						}
+						wp.media.editor.open();
+						return false;
+					});
+				</script>
+				<?php
+				break;
+
 				case 'checkbox':
 				echo '
 				<div class="form-group">
-					<label for="'.$value['id'].'"><strong>'.$value['name'].' </strong></label>
-					<input class="widefat" id="'.$value['id'].'" name="'.$value['id'].'" value="1" '.checked( 1 == $mb, true, false).'  type="'.$value['type'].'" >
+				<label for="'.$value['id'].'"><strong>'.$value['name'].' </strong></label>
+				<input class="widefat" id="'.$value['id'].'" name="'.$value['id'].'" value="1" '.checked( 1 == $mb, true, false).'  type="'.$value['type'].'" >
 				</div>
 				';
 				break;
 
 				default:
-				
+
 				echo '
 				<div class="form-group">
-					<label for="'.$value['id'].'"><strong>'.$value['name'].'</strong></label><br />
-					<input class="widefat" id="'.$value['id'].'" name="'.$value['id'].'" value="'.$mb.'" type="'.$value['type'].'" >
+				<label for="'.$value['id'].'"><strong>'.$value['name'].'</strong></label><br />
+				<input class="widefat" id="'.$value['id'].'" name="'.$value['id'].'" value="'.$mb.'" type="'.$value['type'].'" >
 				</div>
 				';
 				break;
@@ -131,35 +158,37 @@ class MetaBoxes {
 		$nonce_name   = (isset($_POST['meta_nonce']));
 		$nonce_action = 'meta_nonce_action';
 
-		// Check if a nonce is set.
+	// Check if a nonce is set.
 		if ( ! isset( $nonce_name ) )
 			return;
 
-		// // Check if a nonce is valid.
-		// if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
-		// 	return;
+	// // Check if a nonce is valid.
+	// if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+	// 	return;
+	// $is_valid_nonce = ( isset( $_POST[ 'case_study_bg_nonce' ] ) && wp_verify_nonce( $_POST[ 'case_study_bg_nonce' ], 'case_study_bg_submit' ) ) ? 'true' : 'false';
 
-		// Check if the user has permissions to save data.
+	// Check if the user has permissions to save data.
 		if ( ! current_user_can( 'edit_post', $post_id ) )
 			return;
 
-		// Check if it's not an autosave.
+	// Check if it's not an autosave.
 		if ( wp_is_post_autosave( $post_id ) )
 			return;
 
-		// Check if it's not a revision.
+	// Check if it's not a revision.
 		if ( wp_is_post_revision( $post_id ) )
 			return;
 
 		$vars = $this->meta['var'];
 
-		
 		foreach ($vars as $var => $value) {
-			// Sanitize user input.
+
+		// Sanitize user input.
 			$mb = isset( $_POST[ $value['id'] ] ) ? $_POST[ $value['id'] ] : '';
 			update_post_meta( $post_id, $value['id'], $mb );
 
 		}
+		// die();
 
 	}
 

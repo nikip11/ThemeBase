@@ -15,13 +15,12 @@ if ( !function_exists( 'optionsframework_init' ) ) {
 
 // Añadir scripts y styles
 if ( !function_exists('bootstrap')) {
-function bootstrap() {
-	wp_enqueue_style( 'bootstrap-css', get_stylesheet_directory_uri() . '/css/bootstrap.min.css' );
-	// wp_enqueue_script( 'jquery', get_stylesheet_directory_uri() . '/js/jquery.min.js');
-	wp_enqueue_script( 'bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.min.js',array('jquery'), '1.1', true);
+	function bootstrap() {
+		wp_enqueue_style( 'bootstrap-css', get_stylesheet_directory_uri() . '/css/bootstrap.min.css' );
+		wp_enqueue_script( 'bootstrap-js', get_stylesheet_directory_uri() . '/js/bootstrap.min.js',array('jquery'), '1.1', true);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'bootstrap' );
-}
 
 // Registro del menú de WordPress
 require_once('inc/navwalker.php');
@@ -32,8 +31,8 @@ if ( function_exists( 'register_nav_menus' ) ) {
 		array(
 			'main' => 'Main',
 			'footer' => 'footer'
-			)
-		);
+		)
+	);
 }
 
 //  Main Sidebar
@@ -45,7 +44,7 @@ if(function_exists('register_sidebar'))
 		'after_widget' => '',
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
-		));
+	));
 
 //Habilitar thumbnails
 add_theme_support('post-thumbnails');
@@ -72,26 +71,26 @@ function wpml_flag_nav_menu_items($items, $args) {
 			if(!$l['active'] && !$menu_locations['footer-menu']){
 				?>
 				<style type="text/css">
-					.flag {
-						background:url('<?= $l["country_flag_url"]?>') no-repeat;
-						width: 20px;
-						height: 10px;
-						margin-top: 2px;
-						display: inline-block;
-					}
-				</style>
-				<?php
+				.flag {
+					background:url('<?= $l["country_flag_url"]?>') no-repeat;
+					width: 20px;
+					height: 10px;
+					margin-top: 2px;
+					display: inline-block;
+				}
+			</style>
+			<?php
 				//$idioma = '<a href="'.$l['url'].'">'.'<img src="'.$l['country_flag_url'].'" height="12" alt="'.$l['language_code'].'" width="18" /></a>';
-				$idioma = '<a href="'.$l['url'].'">'.'<div class="flag"> </div> '.$l['language_code'].'</a>';
+			$idioma = '<a href="'.$l['url'].'">'.'<div class="flag"> </div> '.$l['language_code'].'</a>';
 				//$idioma = '<a href="'.$l['url'].'" class="flag" > asd</a>';
-			}				
-		}
+		}				
 	}
+}
 
-	$items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-language menu-item-language-current" style="text-transform: uppercase;">';
-	$items .= $idioma;
-	$items .= '</li>';
-	return $items;
+$items .= '<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-language menu-item-language-current" style="text-transform: uppercase;">';
+$items .= $idioma;
+$items .= '</li>';
+return $items;
 }
 //*********************************
 //Paginación de entradas
@@ -119,22 +118,22 @@ function wp_corenavi() {
 function getCookies($title, $text, $link) {
 	return '
 	<section id="cookie">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-2">
-						<div class="cookie-title">'.$title.'</div>
-					</div>
-					<div class="col-sm-1"></div>
-					<div class="col-sm-7">
-						<div class="cookie-text">'.$text.'. Más información <a href="'.$link.'">aquí</a></div>
-					</div>
-					<div class="col-sm-1">
-						<div class="cookie-close">
-							<i class="fa fa-times " aria-hidden="true"></i>
-						</div>
-					</div>
-				</div>
-			</div>
+	<div class="container">
+	<div class="row">
+	<div class="col-sm-2">
+	<div class="cookie-title">'.$title.'</div>
+	</div>
+	<div class="col-sm-1"></div>
+	<div class="col-sm-7">
+	<div class="cookie-text">'.$text.'. Más información <a href="'.$link.'">aquí</a></div>
+	</div>
+	<div class="col-sm-1">
+	<div class="cookie-close">
+	<i class="fa fa-times " aria-hidden="true"></i>
+	</div>
+	</div>
+	</div>
+	</div>
 	</section>
 	';
 }
@@ -143,19 +142,19 @@ function getCookies($title, $text, $link) {
 if ( !function_exists('legalAge')) {
 	function legalAge($text){
 		return '
-			<div id="legal">
-				<div class="legal-content">
-						<div>Logo</div>
-					<div class="legal-form">
-						<p>'.$text.'</p>
-						<ul class="d-line">
-							<li class="legal-btn" id="yes">SI</li>
-							<li class="legal-btn" id="no">NO</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			';
+		<div id="legal">
+		<div class="legal-content">
+		<div>Logo</div>
+		<div class="legal-form">
+		<p>'.$text.'</p>
+		<ul class="d-line">
+		<li class="legal-btn" id="yes">SI</li>
+		<li class="legal-btn" id="no">NO</li>
+		</ul>
+		</div>
+		</div>
+		</div>
+		';
 	}
 }
 
